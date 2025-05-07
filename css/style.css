@@ -75,6 +75,9 @@ header .container{
     padding: 35px;
     background-color: rgb(145, 7, 7);
 }
+section{
+    scroll-margin-top: 100px;
+}
 
 .titulos-container{
     display: flex;
@@ -132,14 +135,6 @@ header .container{
     height: 100%;
     object-fit: cover;
 }
-
-
-
-
-
-
-
-
 
 
 p,h1,li,h2{
