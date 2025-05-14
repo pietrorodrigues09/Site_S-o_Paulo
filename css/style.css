@@ -2,7 +2,7 @@
 #ed5761 vermelho claro
 #f4143f vermelho forte
 #404b62 cinza
-#ffffff branco
+ #f4143f branco
 #161515 preto
 */
 
@@ -83,6 +83,7 @@ section{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 40px;
     max-width: 1400px;
     margin: auto;
 }
@@ -136,6 +137,54 @@ section{
     object-fit: cover;
 }
 
+.card{
+    width: 70%;
+}
+
+#fundacao .container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 20px;
+    text-align: center;
+    padding: 50px 0;
+} 
+
+#fundacao .item{
+    background-color:  rgb(145, 7, 7);
+    border: 1px solid  #161515;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+#fundacao .item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#fundacao .item:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+#funadaca .item p {
+    margin-top: 15px;
+    font-size: 0.95em;
+}
+
+#fundacao .imagem img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+#fundacao {
+    background-color: aliceblue;
+}
 
 p,h1,li,h2{
     color: aliceblue;
