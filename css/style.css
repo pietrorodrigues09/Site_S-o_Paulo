@@ -231,7 +231,34 @@ section{
     display: flex;
 }
 
+.modal-content {
+    background-color: whitesmoke;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
 
+.close-btn {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 8px 16px;
+    background: darkred;
+    color: whitesmoke;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.container-btn2 {
+    margin-top: 2.3rem;
+}
+.container-btn3 {
+    margin-top: 1.2rem;
+}
+.container-btn4 {
+    margin-top: 2.2rem;
+}
 
 
 
