@@ -186,12 +186,11 @@ section{
     background-color: whitesmoke;
 }
 
-.card {
+.modal {
     background: whitesmoke;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 300px;
     margin: auto;
     text-align: center;
 }
@@ -219,6 +218,7 @@ section{
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.6);
