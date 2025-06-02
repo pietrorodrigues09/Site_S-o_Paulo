@@ -170,7 +170,7 @@ section{
 }
 
 
-#funadaca .item p {
+#funadacao .item p {
     margin-top: 15px;
     font-size: 0.95em;
 }
@@ -281,5 +281,8 @@ p,h1,li,h2{
     .banner{
         margin-top: 110px;
     }
-
+    .modal-content {
+        margin-top: 200px;
+    }
+   
 }
