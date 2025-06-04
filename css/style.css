@@ -10,7 +10,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Faculty Glyphic", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     scroll-behavior: smooth;
 }
 .container{
@@ -251,16 +253,14 @@ section{
 }
 
 .container-btn2 {
-    margin-top: 2.3rem;
+    margin-top: 4rem;
 }
 .container-btn3 {
-    margin-top: 1.2rem;
+    margin-top: 2.5rem;
 }
 .container-btn4 {
-    margin-top: 2.2rem;
+    margin-top: 3.8rem;
 }
-
-
 
 .modal p {
     color: black;
@@ -268,6 +268,8 @@ section{
 p,h1,li,h2{
     color: aliceblue;
 }
+
+
 
 @media(max-width:675px){
     header .container, .titulos-container{
