@@ -121,6 +121,7 @@ section{
     flex-wrap: wrap;
 }
 
+
 .titulos-texto{
     flex: 1;
     padding: 20px;
@@ -349,6 +350,61 @@ p,h1,li,h2{
   .galeria img:hover {
     transform: scale(1.05);
   }
+
+  .contatos-container{
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    max-width: 1400px;
+    margin: auto;
+    flex-wrap: wrap;
+    text-align: center;   
+  
+}
+
+  
+  .formulario-contato {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+    margin-top: 40px;
+    color: darkred;
+  }
+  
+  .grupo-form {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+  }
+  
+  .grupo-form input,
+  .grupo-form select,
+  .grupo-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    margin-top: 8px;
+  }
+  
+  .grupo-form input[type="checkbox"],
+  .grupo-form input[type="radio"] {
+    margin-right: 8px;
+    margin-top: 0;
+  }
+  
+  .grupo-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+
+
 
 @media(max-width:675px){
     header .container, .titulos-container{
