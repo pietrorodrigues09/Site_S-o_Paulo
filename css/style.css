@@ -56,7 +56,11 @@ header .container{
     align-items: center;
     flex-wrap: wrap;
 }
-.logo{
+
+.logosao{
+    width: 70px;
+}
+/* .logo{
     font-size: 2em;
     font-weight: bold;
 }
@@ -64,12 +68,12 @@ header .container{
 .logo a{
     text-decoration: none;
     color: black;
-}
+} */
 
-.logo {
+/* .logo {
     max-width: 100px;
     max-height: 100px;
-}
+} */
 .banner{
     background:url(../img/resized_banner.jpg) no-repeat center/cover;
     height: 500px;

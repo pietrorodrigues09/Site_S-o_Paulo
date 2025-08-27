@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>São Paulo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div  class="container">
+            <div class="logo">
+                <img class = "logosao"src="img/logo.png" alt="logo são paulo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="index.html#titulos">Titulos</a></li>
+                    <li><a href="index.html#fundacao">Fundação</a></li>
+                    <li><a href="index.html#estadio">Estádio</a></li>
+                    <li><a href="index.html#table">Tabela</a></li>
+                    <li><a href="jogo.html">Jogo</a></li>
+                    <li><a href="contato.html">Contatos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Jogo do São Paulo FC — Penalty Dash</title>
+          <style>
+            :root{
+              --spfc-red:#e10600;
+              --spfc-black:#111111;
+              --spfc-white:#ffffff;
+              --grass:#0f7a24;
+              --line:#dfe7e3;
+            }
+            *{box-sizing:border-box}
+            body{
+              margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial; background:#101010; color:var(--spfc-white);
+              display:flex; align-items:center; justify-content:center; min-height:100vh; padding:16px;
+            }
+            .wrapper{width: min(960px, 100%);}
+        
+            /* Header */
+            .title{display:flex; align-items:center; gap:12px; margin-bottom:10px}
+            .badge{width:16px; height:16px; border-radius:3px; background:linear-gradient(90deg,var(--spfc-red) 0 33%, var(--spfc-white) 33% 66%, var(--spfc-black) 66%)}
+        
+            /* HUD */
+            .hud{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:8px}
+            .hud .pill{background:#1a1a1a; border:1px solid #2a2a2a; padding:6px 10px; border-radius:999px;}
+            .btn{cursor:pointer; background:var(--spfc-red); color:white; border:none; padding:8px 14px; border-radius:10px; font-weight:700; box-shadow:0 2px 0 #8b0800}
+            .btn:active{transform:translateY(1px)}
+        
+            /* Game Area uses position:relative; children absolute */
+            .game-area{
+              position:relative; width:100%; aspect-ratio: 16/9; background:radial-gradient(circle at 30% 30%, #128d2b, var(--grass));
+              border:6px solid #0b4718; border-radius:18px; overflow:hidden; user-select:none;
+            }
+            /* Field lines */
+            .line{position:absolute; border:2px solid var(--line); pointer-events:none}
+            .center-circle{position:absolute; width:140px; height:140px; border:2px solid var(--line); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%)}
+            .midline{position:absolute; left:50%; top:0; bottom:0; border-left:2px solid var(--line); transform:translateX(-50%)}
+        
+            /* Goal */
+            .goal{position:absolute; top:10px; left:50%; transform:translateX(-50%); width:240px; height:18px; border:2px solid var(--spfc-white); background:rgba(255,255,255,.08); box-shadow:0 0 0 2px rgba(0,0,0,.2) inset}
+            .goal .net{position:absolute; inset:0; background:linear-gradient(90deg,transparent 24%, rgba(255,255,255,.25) 25% 26%, transparent 26%), linear-gradient(transparent 24%, rgba(255,255,255,.25) 25% 26%, transparent 26%); background-size:20px 20px}
+        
+            /* Player */
+            .player{position:absolute; width:28px; height:28px; border-radius:50%; background:var(--spfc-white); border:3px solid var(--spfc-black); outline:3px solid var(--spfc-red);}
+            .player::after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; background:#ffd54d}
+        
+            /* Ball */
+            .ball{position:absolute; width:16px; height:16px; border-radius:50%; background:radial-gradient(circle at 30% 35%, #ffffff 0 40%, #dcdcdc 41% 70%, #9e9e9e 71% 100%); border:1px solid #888}
+        
+            /* Defenders / Goalie */
+            .defender{position:absolute; width:26px; height:26px; border-radius:8px; background:var(--spfc-black); border:2px solid #333}
+            .defender::after{content:""; position:absolute; inset:4px; background:linear-gradient(90deg,var(--spfc-red) 0 50%, var(--spfc-white) 50%)}
+            .goalie{position:absolute; top:38px; left:50%; transform:translateX(-50%); width:34px; height:34px; border-radius:8px; background:#222; border:2px solid #555}
+        
+            /* Popups */
+            .toast{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,.7); border:1px solid #333; padding:14px 16px; border-radius:12px; text-align:center; display:none}
+            .toast h2{margin:0 0 6px 0}
+        
+            /* Instructions */
+            .help{font-size:.95rem; opacity:.9; line-height:1.4; margin:8px 0 14px}
+            .kbd{display:inline-block; border:1px solid #444; background:#181818; padding:2px 6px; border-radius:6px; font-weight:700}
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="title">
+              <div class="badge" aria-hidden="true"></div>
+              <h1 style="margin:0; font-size:20px; letter-spacing:.3px">São Paulo FC — Penalty Dash</h1>
+            </div>
+        
+            <div class="hud">
+              <button id="startBtn" class="btn">Iniciar / Reiniciar</button>
+              <div class="pill">Gols: <span id="score">0</span></div>
+              <div class="pill">Vidas: <span id="lives">3</span></div>
+              <div class="pill">Nível: <span id="level">1</span></div>
+              <div class="pill">Tempo: <span id="timer">60</span>s</div>
+            </div>
+        
+            <div class="help">
+              Use <span class="kbd">←</span> <span class="kbd">→</span> para mover, <span class="kbd">ESPAÇO</span> para chutar. Faça gols evitando os defensores. Cada nível fica mais rápido!
+            </div>
+        
+            <!-- GAME AREA (position:relative) -->
+            <div id="game" class="game-area" role="application" aria-label="Campo de jogo">
+              <!-- Field ornaments (absolute) -->
+              <div class="center-circle"></div>
+              <div class="midline"></div>
+              <div class="goal"><div class="net"></div></div>
+        
+              <!-- Dynamic entities (absolute) -->
+              <div id="player" class="player" style="left:50%; bottom:18px; transform:translateX(-50%)"></div>
+              <div id="ball" class="ball" style="left:50%; bottom:52px; transform:translateX(-50%)"></div>
+              <div id="goalie" class="goalie"></div>
+        
+              <!-- Defenders container -->
+              <div id="defenders"></div>
+        
+              <!-- Toast -->
+              <div id="toast" class="toast">
+                <h2 id="toastTitle">Jogo pausado</h2>
+                <div id="toastMsg">Pressione Iniciar</div>
+              </div>
+            </div>
+          </div>
+        
+          <script>
+            // ==========================
+            // Simple arcade using absolute/relative positioning
+            // ==========================
+            const game = document.getElementById('game');
+            const player = document.getElementById('player');
+            const ball = document.getElementById('ball');
+            const goalie = document.getElementById('goalie');
+            const defendersWrap = document.getElementById('defenders');
+            const scoreEl = document.getElementById('score');
+            const livesEl = document.getElementById('lives');
+            const levelEl = document.getElementById('level');
+            const timerEl = document.getElementById('timer');
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMsg = document.getElementById('toastMsg');
+        
+            const startBtn = document.getElementById('startBtn');
+        
+            let running = false;
+            let keys = { left:false, right:false, space:false };
+            let score = 0, lives = 3, level = 1, timeLeft = 60;
+            let ballState = 'ready'; // 'ready' | 'fired'
+            let defenders = [];
+            let lastTime = 0;
+        
+            // Helper: read/assign left in percentage relative to game width
+            function getGameRect(){ return game.getBoundingClientRect(); }
+            function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+        
+            function setPlayerX(px){
+              // px in pixels from left; convert to translate for centering maintained
+              const rect = getGameRect();
+              const half = rect.width/2;
+              const w = player.offsetWidth;
+              const x = clamp(px, 0, rect.width - w);
+              player.style.left = x + 'px';
+              player.style.transform = '';
+              // Keep ball with player if ready
+              if(ballState === 'ready'){
+                ball.style.left = (x + w/2 - ball.offsetWidth/2) + 'px';
+              }
+            }
+        
+            function centerPlayer(){
+              const rect = getGameRect();
+              setPlayerX(rect.width/2 - player.offsetWidth/2);
+            }
+        
+            function resetBall(){
+              const px = player.getBoundingClientRect();
+              const gx = getGameRect();
+              const x = px.left - gx.left + player.offsetWidth/2 - ball.offsetWidth/2;
+              ball.style.left = x + 'px';
+              ball.style.bottom = '52px';
+              ballState = 'ready';
+            }
+        
+            function spawnDefenders(n){
+              defendersWrap.innerHTML = '';
+              defenders = [];
+              const rect = getGameRect();
+              for(let i=0;i<n;i++){
+                const d = document.createElement('div');
+                d.className = 'defender';
+                d.style.top = (120 + i*60) + 'px';
+                d.style.left = Math.random() * (rect.width - 26) + 'px';
+                d.dataset.dir = Math.random() > .5 ? '1' : '-1';
+                d.dataset.speed = (1.2 + Math.random() * 0.6) * level; // scales with level
+                defendersWrap.appendChild(d);
+                defenders.push(d);
+              }
+            }
+        
+            function resetGame(){
+              score = 0; lives = 3; level = 1; timeLeft = 60;
+              scoreEl.textContent = score; livesEl.textContent = lives; levelEl.textContent = level; timerEl.textContent = timeLeft;
+              centerPlayer(); resetBall();
+              setGoalie();
+              spawnDefenders(4);
+            }
+        
+            function setGoalie(){
+              const rect = getGameRect();
+              goalie.style.left = (rect.width/2 - goalie.offsetWidth/2) + 'px';
+              goalie.dataset.dir = Math.random()>.5? '1':'-1';
+              goalie.dataset.speed = (1.4 + level*0.4).toString();
+            }
+        
+            function showToast(title,msg){
+              toastTitle.textContent = title; toastMsg.textContent = msg;
+              toast.style.display = 'block';
+            }
+            function hideToast(){ toast.style.display = 'none'; }
+        
+            // Input
+            window.addEventListener('keydown', (e)=>{
+              if(e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+              if(e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+              if(e.code === 'Space') { keys.space = true; e.preventDefault(); }
+            });
+            window.addEventListener('keyup', (e)=>{
+              if(e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+              if(e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+              if(e.code === 'Space') keys.space = false;
+            });
+        
+            // Start/Restart
+            startBtn.addEventListener('click', ()=>{
+              resetGame();
+              hideToast();
+              if(!running){
+                running = true; lastTime = performance.now();
+                requestAnimationFrame(loop);
+              }
+            });
+        
+            // Core Loop
+            function loop(t){
+              if(!running) return;
+              const dt = Math.min(32, t - lastTime); // ms
+              lastTime = t;
+        
+              updateTimer(dt);
+              updatePlayer(dt);
+              updateGoalie(dt);
+              updateDefenders(dt);
+              updateBall(dt);
+        
+              requestAnimationFrame(loop);
+            }
+        
+            function updateTimer(dt){
+              timeLeft -= dt/1000;
+              if(timeLeft <= 0){
+                timeLeft = 0; running = false;
+                showToast('Tempo esgotado!','Placar final: ' + score + ' gol(s). Clique Iniciar para jogar novamente.');
+              }
+              timerEl.textContent = Math.ceil(timeLeft);
+            }
+        
+            function updatePlayer(dt){
+              const rect = getGameRect();
+              const speed = 0.42 * rect.width; // px/s relative to width
+              const move = (dt/1000) * speed;
+              const leftNow = parseFloat(getComputedStyle(player).left);
+              if(keys.left) setPlayerX(leftNow - move);
+              if(keys.right) setPlayerX(leftNow + move);
+        
+              if(keys.space && ballState==='ready'){
+                ballState = 'fired';
+              }
+            }
+        
+            function updateGoalie(dt){
+              const rect = getGameRect();
+              let x = parseFloat(getComputedStyle(goalie).left);
+              const dir = parseFloat(goalie.dataset.dir);
+              const speed = parseFloat(goalie.dataset.speed) * 120; // px/s
+              x += dir * speed * (dt/1000);
+              if(x <= 0){ x = 0; goalie.dataset.dir = '1'; }
+              if(x >= rect.width - goalie.offsetWidth){ x = rect.width - goalie.offsetWidth; goalie.dataset.dir = '-1'; }
+              goalie.style.left = x + 'px';
+            }
+        
+            function updateDefenders(dt){
+              const rect = getGameRect();
+              for(const d of defenders){
+                let x = parseFloat(getComputedStyle(d).left);
+                const dir = parseFloat(d.dataset.dir);
+                const speed = parseFloat(d.dataset.speed) * 100; // px/s
+                x += dir * speed * (dt/1000);
+                if(x <= 0){ x = 0; d.dataset.dir = '1'; }
+                if(x >= rect.width - d.offsetWidth){ x = rect.width - d.offsetWidth; d.dataset.dir = '-1'; }
+                d.style.left = x + 'px';
+        
+                // Collision with player (only when ball is ready)
+                if(ballState==='ready' && intersects(player, d)){
+                  loseLife();
+                  break;
+                }
+              }
+            }
+        
+            function updateBall(dt){
+              if(ballState !== 'fired') return;
+              let bottom = parseFloat(getComputedStyle(ball).bottom);
+              const speed = 360; // px/s upward
+              bottom += speed * (dt/1000);
+              ball.style.bottom = bottom + 'px';
+        
+              // Collisions
+              if(intersects(ball, goalie)){
+                // Save by goalie
+                ballState = 'ready';
+                ball.style.bottom = '52px';
+                // knock ball slightly
+                const leftNow = parseFloat(getComputedStyle(ball).left);
+                ball.style.left = clamp(leftNow + (Math.random()>.5? 24 : -24), 0, getGameRect().width - ball.offsetWidth) + 'px';
+                return;
+              }
+        
+              for(const d of defenders){
+                if(intersects(ball, d)){
+                  // Blocked by defender
+                  ballState = 'ready';
+                  ball.style.bottom = '52px';
+                  return;
+                }
+              }
+        
+              // Goal line reached
+              const goalRect = document.querySelector('.goal').getBoundingClientRect();
+              const ballRect = ball.getBoundingClientRect();
+              if(ballRect.top <= goalRect.bottom){
+                // Check if within goal mouth (x inside goal)
+                if(ballRect.left >= goalRect.left && ballRect.right <= goalRect.right){
+                  score++;
+                  scoreEl.textContent = score;
+                  level = 1 + Math.floor(score / 3);
+                  levelEl.textContent = level;
+                  spawnDefenders(Math.min(6, 4 + Math.floor(score/2)));
+                  setGoalie();
+                }
+                // Reset ball regardless
+                ballState = 'ready';
+                ball.style.bottom = '52px';
+              }
+            }
+        
+            function loseLife(){
+              lives--;
+              livesEl.textContent = lives;
+              if(lives <= 0){
+                running = false;
+                showToast('Fim de jogo!','Você fez ' + score + ' gol(s). Clique Iniciar para jogar novamente.');
+              } else {
+                // Reset player and ball
+                centerPlayer();
+                resetBall();
+                showFlash('Falta! -1 vida');
+              }
+            }
+        
+            function showFlash(text){
+              const f = document.createElement('div');
+              f.textContent = text;
+              f.style.position = 'absolute';
+              f.style.left = '50%'; f.style.top = '60%'; f.style.transform = 'translate(-50%,-50%)';
+              f.style.padding = '8px 12px'; f.style.borderRadius = '10px';
+              f.style.background = 'rgba(0,0,0,.6)'; f.style.border = '1px solid #333';
+              f.style.pointerEvents = 'none';
+              game.appendChild(f);
+              setTimeout(()=>{ f.remove(); }, 700);
+            }
+        
+            function intersects(a,b){
+              const ra = a.getBoundingClientRect();
+              const rb = b.getBoundingClientRect();
+              return !(ra.right < rb.left || ra.left > rb.right || ra.bottom < rb.top || ra.top > rb.bottom);
+            }
+        
+            // Initial
+            showToast('Pronto para jogar?','Clique em Iniciar. Dica: segure ←/→ para se mover e aperte ESPAÇO para chutar.');
+            window.addEventListener('resize', ()=>{ centerPlayer(); resetBall(); });
+          </script>
+        </body>
+        </html>
+        
+    <footer>
+        
+    </footer>
+   
+</body>
+</html> 
